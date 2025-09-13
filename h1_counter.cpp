@@ -20,10 +20,10 @@ int main( ) {
 	// Ugly maigic num for now
 	char buf[8172];
 
-	std::string message = "GET /~kkredo/file.html HTTP/1.0\r\n\r\n";
+	char message[]= "GET /~kkredo/file.html HTTP/1.0\r\n\r\n";
 
-	std::memcpy(buf,message.data(),message.size());
-	send(s, buf, message.size(),0);
+	std::memcpy(buf,&message,sizeof(message));
+	send(s, buf, sizeof(message),0);
 	std::string responce;
 
 	while (int size_of_recv = recv(s,buf, sizeof(buf),0)){

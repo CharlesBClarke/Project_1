@@ -1,12 +1,14 @@
 CXX     = g++
 CXXFLAGS= -Wall -g
-TARGET  = h1_counter
-SRC     = h1_counter
+TARGET  = build/h1_counter
+SRC     = h1_counter.cpp
 
-$(TARGET): $(SRC)
+$(TARGET): $(SRC) | build
 	$(CXX) $(CXXFLAGS) -o $(TARGET) $(SRC)
 
+build:
+	mkdir -p build
 clean:
-	rm -f $(TARGET)
+	rm -r build
 
 .PHONY: clean
