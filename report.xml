@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dfxml xmloutputversion='1.0'>
+  <metadata 
+  xmlns='http://afflib.org/tcpflow/' 
+  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' 
+  xmlns:dc='http://purl.org/dc/elements/1.1/'>
+    <dc:type>Feature Extraction</dc:type>
+  </metadata>
+  <creator version='1.0'>
+    <program>TCPFLOW</program>
+    <version>1.6.1</version>
+    <build_environment>
+      <compiler>12.2.0 (12.2.0)</compiler>
+      <CPPFLAGS>-I/usr/local/include  -I/usr/local/include -DUTC_OFFSET=+0000</CPPFLAGS>
+      <CFLAGS>-g -march=x86-64 -mtune=generic -O3 -pipe -fno-plt -fexceptions         -Wp,-D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security         -fstack-clash-protection -fcf-protection -flto=auto -MD -Wpointer-arith -Wmissing-declarations -Wmissing-prototypes -Wshadow -Wwrite-strings -Wcast-align -Waggregate-return -Wbad-function-cast -Wcast-qual -Wundef -Wredundant-decls -Wdisabled-optimization -Wfloat-equal -Wmultichar -Wc++-compat -Wmissing-noreturn -Wall -Wstrict-prototypes -MD -D_FORTIFY_SOURCE=2 -Wpointer-arith -Wmissing-declarations -Wmissing-prototypes -Wshadow -Wwrite-strings -Wcast-align -Waggregate-return -Wbad-function-cast -Wcast-qual -Wundef -Wredundant-decls -Wdisabled-optimization -Wfloat-equal -Wmultichar -Wc++-compat -Wmissing-noreturn -Wall -Wstrict-prototypes</CFLAGS>
+      <CXXFLAGS>-g -march=x86-64 -mtune=generic -O3 -pipe -fno-plt -fexceptions         -Wp,-D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security         -fstack-clash-protection -fcf-protection -Wp,-D_GLIBCXX_ASSERTIONS -flto=auto -Wall -MD -D_FORTIFY_SOURCE=2 -Wpointer-arith -Wshadow -Wwrite-strings -Wcast-align -Wredundant-decls -Wdisabled-optimization -Wfloat-equal -Wmultichar -Wmissing-noreturn -Woverloaded-virtual -Wsign-promo -funit-at-a-time -Weffc++ -Wno-address-of-packed-member</CXXFLAGS>
+      <LDFLAGS>-L/usr/local/lib -Wl,-O1,--sort-common,--as-needed,-z,relro,-z,now -flto=auto -L/usr/local/lib</LDFLAGS>
+      <LIBS>-lcap-ng -lpcap -lcairo -lfontconfig -lfreetype -lbz2 -lpixman-1 -lexpat -lcrypto -lsqlite3 -lssl -lcrypto -ldl -lz </LIBS>
+      <compilation_date>2022-11-02T00:55:52</compilation_date>
+      <library name="boost" version="108000"/>
+      <library name="sqlite" version="3.39.4" source_id="2022-09-29 15:55:41 a29f9949895322123f7c38fbe94c649a9d6e6c9cd0c3b41c96d694552f26alt1"/>
+      <git commit="tcpflow-1.4.0beta1-367-gc98938b-dirty"/>
+    </build_environment>
+    <execution_environment>
+      <os_sysname>Linux</os_sysname>
+      <os_release>6.16.5-arch1-1</os_release>
+      <os_version>#1 SMP PREEMPT_DYNAMIC Thu, 04 Sep 2025 23:18:13 +0000</os_version>
+      <host>owner-20uw0012us</host>
+      <arch>x86_64</arch>
+      <command_line>command line to be provided</command_line>
+      <uid>0</uid>
+      <username>root</username>
+      <start_time>2025-09-13T21:54:44Z</start_time>
+    </execution_environment>
+  </creator>
+  <configuration>
+  </configuration>
+  <tdelta>0</tdelta>
+  <configuration>
+    <fileobject>
+      <filename>010.000.000.115.52818-132.241.001.013.00080</filename>
+      <filesize>35</filesize>
+      <tcpflow startime='2025-09-13T22:00:20.416188Z' endtime='2025-09-13T22:00:20.488500Z' mac_daddr='00:04:00:01:00:06' mac_saddr='f4:26:79:ce:a0:4a' family='2' src_ipn='10.0.0.115' dst_ipn='132.241.1.13' srcport='52818' dstport='80' packets='6' len='391' />
+    </fileobject>
+    <fileobject>
+      <filename>010.000.000.115.42892-132.241.001.013.00080</filename>
+      <filesize>35</filesize>
+      <tcpflow startime='2025-09-13T22:00:40.972893Z' endtime='2025-09-13T22:00:41.058087Z' mac_daddr='00:04:00:01:00:06' mac_saddr='f4:26:79:ce:a0:4a' family='2' src_ipn='10.0.0.115' dst_ipn='132.241.1.13' srcport='42892' dstport='80' packets='6' len='391' />
+    </fileobject>
+    <fileobject>
+      <filename>010.000.000.115.46908-132.241.001.013.00080</filename>
+      <filesize>35</filesize>
+      <tcpflow startime='2025-09-13T22:02:19.545676Z' endtime='2025-09-13T22:02:19.617954Z' mac_daddr='00:04:00:01:00:06' mac_saddr='f4:26:79:ce:a0:4a' family='2' src_ipn='10.0.0.115' dst_ipn='132.241.1.13' srcport='46908' dstport='80' packets='6' len='391' />
+    </fileobject>

@@ -1,21 +1,11 @@
-/* This code is an updated version of the sample code from "Computer Networks: A Systems
- * Approach," 5th Edition by Larry L. Peterson and Bruce S. Davis. Some code comes from
- * man pages, mostly getaddrinfo(3). */
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstring>
+#include <iostream>
+#include <string>
+
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netdb.h>
-#include <string.h>
 #include <unistd.h>
-
-/*
- * Lookup a host IP address and connect to it using service. Arguments match the first two
- * arguments to getaddrinfo(3).
- *
- * Returns a connected socket descriptor or -1 on error. Caller is responsible for closing
- * the returned socket.
- */
 int lookup_and_connect( const char *host, const char *service );
 
 int main( ) {
@@ -23,10 +13,25 @@ int main( ) {
 	const char *host = "www.ecst.csuchico.edu";
 	const char *port = "80";
 
-	/* Lookup IP and connect to server */
 	if ( ( s = lookup_and_connect( host, port ) ) < 0 ) {
 		exit( 1 );
 	}
+	
+	// Ugly maigic num for now
+	char buf[8172];
+
+	std::string message = "GET /~kkredo/file.html HTTP/1.0\r\n\r\n";
+
+	std::memcpy(buf,message.data(),message.size());
+	send(s, buf, message.size(),0);
+	std::string responce;
+
+	while (int size_of_recv = recv(s,buf, sizeof(buf),0)){
+		std::string temp(buf, size_of_recv);
+		responce.append(temp);
+	}
+
+	std::cout << responce << std::endl;
 
 	/* Modify the program so it
 	 *
@@ -43,12 +48,10 @@ int main( ) {
 }
 
 int lookup_and_connect( const char *host, const char *service ) {
-	struct addrinfo hints;
+	struct addrinfo hints{};
 	struct addrinfo *rp, *result;
 	int s;
 
-	/* Translate host name into peer's IP address */
-	memset( &hints, 0, sizeof( hints ) );
 	hints.ai_family = AF_UNSPEC;
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_flags = 0;
@@ -59,7 +62,6 @@ int lookup_and_connect( const char *host, const char *service ) {
 		return -1;
 	}
 
-	/* Iterate through the address list and try to connect */
 	for ( rp = result; rp != NULL; rp = rp->ai_next ) {
 		if ( ( s = socket( rp->ai_family, rp->ai_socktype, rp->ai_protocol ) ) == -1 ) {
 			continue;
