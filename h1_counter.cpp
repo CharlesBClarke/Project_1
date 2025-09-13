@@ -7,10 +7,12 @@
 #include <unistd.h>
 int lookup_and_connect( const char *host, const char *service );
 
-int main( ) {
+int main(int argc, char* argv[]) {
 	int s;
 	const char *host = "www.ecst.csuchico.edu";
 	const char *port = "80";
+	int value = std::stoi(argv[1]);
+	std::cout << value << std::endl;
 
 	if ( ( s = lookup_and_connect( host, port ) ) < 0 ) {
 		exit( 1 );
