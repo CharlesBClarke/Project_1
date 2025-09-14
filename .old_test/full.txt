@@ -1,0 +1,90 @@
+!!!CUNK!!!HTTP/1.1 200 OK??Date: Sun, 14 Sep 2025 20:37:18 G
+!!!CUNK!!!MT??Server: Apache??X-XSS-Protection: 1; mode=bloc
+!!!CUNK!!!k??Last-Modified: Wed, 17 Nov 2010 23:38:31 GMT??E
+!!!CUNK!!!Tag: "1013-495482bbf8bc0"??Accept-Ranges: bytes??C
+!!!CUNK!!!ontent-Length: 4115??Vary: Accept-Encoding??X-Cont
+!!!CUNK!!!ent-Type-Options: nosniff??X-Frame-Options: sameor
+!!!CUNK!!!igin??Connection: close??Content-Type: text/html??
+!!!CUNK!!!??<html>??<body>???<p>THE Conventions of a number 
+!!!CUNK!!!of the States having at the time of their adopting
+!!!CUNK!!! the Constitution, expressed a desire, in order to
+!!!CUNK!!! prevent misconstruction or abuse of its powers, t
+!!!CUNK!!!hat further declaratory and restrictive clauses sh
+!!!CUNK!!!ould be added: And as extending the ground of publ
+!!!CUNK!!!ic confidence in the Government, will best insure 
+!!!CUNK!!!the beneficent ends of its institution</p>????<p>R
+!!!CUNK!!!ESOLVED by the Senate and House of Representatives
+!!!CUNK!!! of the United States of America, in Congress asse
+!!!CUNK!!!mbled, two thirds of both Houses concurring, that 
+!!!CUNK!!!the following Articles be proposed to the Legislat
+!!!CUNK!!!ures of the several States, as Amendments to the C
+!!!CUNK!!!onstitution of the United States, all or any of wh
+!!!CUNK!!!ich Articles, when ratified by three fourths of th
+!!!CUNK!!!e said Legislatures, to be valid to all intents an
+!!!CUNK!!!d purposes, as part of the said Constitution; viz.
+!!!CUNK!!!:</p>????<p>ARTICLES in addition to, and Amendment
+!!!CUNK!!! of the Constitution of the United States of Ameri
+!!!CUNK!!!ca, proposed by Congress, and ratified by the Legi
+!!!CUNK!!!slatures of the several States, pursuant to the fi
+!!!CUNK!!!fth Article of the original Constitution.</p>????<
+!!!CUNK!!!h1>Amendment I</h1>????<p>Congress shall make no l
+!!!CUNK!!!aw respecting an establishment of religion, or pro
+!!!CUNK!!!hibiting the free exercise thereof; or abridging t
+!!!CUNK!!!he freedom of speech, or of the press; or the righ
+!!!CUNK!!!t of the people peaceably to assemble, and to peti
+!!!CUNK!!!tion the Government for a redress of grievances.</
+!!!CUNK!!!p>????<h1>Amendment II</h1>????<p>A well regulated
+!!!CUNK!!! Militia being necessary to the security of a free
+!!!CUNK!!! State, the right of the people to keep and bear A
+!!!CUNK!!!rms shall not be infringed.</p>????<h1>Amendment I
+!!!CUNK!!!II</h1>????<p>No Soldier shall, in time of peace b
+!!!CUNK!!!e quartered in any house, without the consent of t
+!!!CUNK!!!he Owner, nor in time of war, but in a manner to b
+!!!CUNK!!!e prescribed by law.</p>????<h1>Amendment IV</h1>?
+!!!CUNK!!!???<p>The right of the people to be secure in thei
+!!!CUNK!!!r persons, houses, papers, and effects, against un
+!!!CUNK!!!reasonable searches and seizures, shall not be vio
+!!!CUNK!!!lated, and no Warrants shall issue, but upon proba
+!!!CUNK!!!ble cause, supported by Oath or affirmation, and p
+!!!CUNK!!!articularly describing the place to be searched, a
+!!!CUNK!!!nd the persons or things to be seized.</p>????<h1>
+!!!CUNK!!!Amendment V</h1>????<p>No person shall be held to 
+!!!CUNK!!!answer for a capital, or otherwise infamous crime,
+!!!CUNK!!! unless on a presentment or indictment of a Grand 
+!!!CUNK!!!Jury, except in cases arising in the land or naval
+!!!CUNK!!! forces, or in the Militia, when in actual service
+!!!CUNK!!! in time of War or public danger; nor shall any pe
+!!!CUNK!!!rson be subject for the same offence to be twice p
+!!!CUNK!!!ut in jeopardy of life or limb; nor shall be compe
+!!!CUNK!!!lled in any criminal case to be a witness against 
+!!!CUNK!!!himself, nor be deprived of life, liberty, or prop
+!!!CUNK!!!erty, without due process of law; nor shall privat
+!!!CUNK!!!e property be taken for public use, without just c
+!!!CUNK!!!ompensation.</p>????<h1>Amendment VI</h1>????<p>In
+!!!CUNK!!! all criminal prosecutions, the accused shall enjo
+!!!CUNK!!!y the right to a speedy and public trial, by an im
+!!!CUNK!!!partial jury of the State and district wherein the
+!!!CUNK!!! crime shall have been committed, which district s
+!!!CUNK!!!hall have been previously ascertained by law, and 
+!!!CUNK!!!to be informed of the nature and cause of the accu
+!!!CUNK!!!sation; to be confronted with the witnesses agains
+!!!CUNK!!!t him; to have compulsory process for obtaining wi
+!!!CUNK!!!tnesses in his favor, and to have the Assistance o
+!!!CUNK!!!f Counsel for his defence.</p>????<h1>Amendment VI
+!!!CUNK!!!I</h1>????<p>In suits at common law, where the val
+!!!CUNK!!!ue in controversy shall exceed twenty dollars, the
+!!!CUNK!!! right of trial by jury shall be preserved, and no
+!!!CUNK!!! fact tried by a jury, shall be otherwise reexamin
+!!!CUNK!!!ed in any Court of the United States, than accordi
+!!!CUNK!!!ng to the rules of the common law.</p>????<h1>Amen
+!!!CUNK!!!dment VIII</h1>????<p>Excessive bail shall not be 
+!!!CUNK!!!required, nor excessive fines imposed, nor cruel a
+!!!CUNK!!!nd unusual punishments inflicted.</p>????<h1>Amend
+!!!CUNK!!!ment IX</h1>????<p>The enumeration in the Constitu
+!!!CUNK!!!tion, of certain rights, shall not be construed to
+!!!CUNK!!! deny or disparage others retained by the people.<
+!!!CUNK!!!/p>????<h1>Amendment X</h1>????<p>The powers not d
+!!!CUNK!!!elegated to the United States by the Constitution,
+!!!CUNK!!! nor prohibited by it to the States, are reserved 
+!!!CUNK!!!to the States respectively, or to the people.</p>?
+!!!CUNK!!!?</body>?</html>?
