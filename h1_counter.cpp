@@ -40,10 +40,16 @@ int main(int argc, char* argv[]) {
 	int trailing_match = 0;
 	int header_count = 0;
 	int chunk_boundry = max_packet_size;
+	int byte_count = 0;
 
 	while (int size_of_recv = recv(s,buf, sizeof(buf),0)){
+		byte_count+=size_of_recv;
 		for(int i = - 3; i< size_of_recv; ++i){
-			if (chunk_boundry < 4) {if (chunk_boundry == 0) chunk_boundry = max_packet_size;}
+			if (chunk_boundry < 4) {
+				if (chunk_boundry == 0){
+					chunk_boundry = max_packet_size;
+				}
+			}
 			else if (i<0){
 				int match_len = match_header(buf, size_of_recv, i);
 				if (match_len+trailing_match == 4) header_count+=1;
@@ -55,11 +61,12 @@ int main(int argc, char* argv[]) {
 				int match_len = match_header(buf, size_of_recv, i);
 				if (match_len!=0) trailing_match=match_len;
 			}
-			chunk_boundry--;
+			--chunk_boundry;
 		}
 	}
 
-	std::cout << header_count << std::endl;
+	std::cout << "number of <h1> tags: " << header_count << std::endl;
+	std::cout << "number of bytes: " << byte_count << std::endl;
 
 	close( s );
 
