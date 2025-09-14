@@ -7,41 +7,54 @@
 #include <unistd.h>
 int lookup_and_connect( const char *host, const char *service );
 
+int match_header(const char *haystack, int buf_size, int index){
+	const char neadle[]= {'<','h','1','>'};
+	int neadle_len = 4;
+	int match_count = 0;
+	for(int j = 0; j<neadle_len; ++j){
+		if(0<=index && index<buf_size){
+			if (haystack[index] != neadle[j]) return -1;
+			match_count+=1;
+			index+=1;
+		}
+	}
+	return match_count;
+}
+
 int main(int argc, char* argv[]) {
 	int s;
 	const char *host = "www.ecst.csuchico.edu";
 	const char *port = "80";
-	int value = std::stoi(argv[1]);
-	std::cout << value << std::endl;
+	int max_packet_size = std::stoi(argv[1]);
 
 	if ( ( s = lookup_and_connect( host, port ) ) < 0 ) {
 		exit( 1 );
 	}
 	
-	// Ugly maigic num for now
-	char buf[8172];
+	char buf[max_packet_size];
 
 	char message[]= "GET /~kkredo/file.html HTTP/1.0\r\n\r\n";
 
 	std::memcpy(buf,&message,sizeof(message));
 	send(s, buf, sizeof(message),0);
-	std::string responce;
+	int trailing_match = 0;
+	int header_count = 0;
 
 	while (int size_of_recv = recv(s,buf, sizeof(buf),0)){
-		std::string temp(buf, size_of_recv);
-		responce.append(temp);
+		for(int i = -3; i<0; ++i){
+			int match_len = match_header(buf, size_of_recv, ++i);
+			if (match_len+trailing_match == 4) header_count+=1;
+		 }
+		for(int i = 0; i<size_of_recv-3; ++i){
+			if (match_header(buf, size_of_recv, i)==4) ++header_count;
+		}
+		for(int i = size_of_recv-3; i<size_of_recv; ++i){
+			int match_len = match_header(buf, size_of_recv, ++i);
+			if (match_len!=0) trailing_match=match_len;
+		}
 	}
 
-	std::cout << responce << std::endl;
-
-	/* Modify the program so it
-	 *
-	 * 1) connects to www.ecst.csuchico.edu on port 80 (mostly done above)
-	 * 2) sends "GET /~kkredo/file.html HTTP/1.0\r\n\r\n" to the server
-	 * 3) receives all the data sent by the server (HINT: "orderly shutdown" in recv(2))
-	 * 4) prints the total number of bytes received
-	 *
-	 * */
+	std::cout << header_count << std::endl;
 
 	close( s );
 
