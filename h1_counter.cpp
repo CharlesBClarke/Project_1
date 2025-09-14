@@ -15,8 +15,8 @@ int match_header(const char *haystack, int buf_size, int index){
 		if(0<=index && index<buf_size){
 			if (haystack[index] != neadle[j]) return -1;
 			match_count+=1;
-			index+=1;
 		}
+		index+=1;
 	}
 	return match_count;
 }
