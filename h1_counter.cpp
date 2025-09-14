@@ -5,6 +5,7 @@
 #include <sys/socket.h>
 #include <netdb.h>
 #include <unistd.h>
+
 int lookup_and_connect( const char *host, const char *service );
 
 int match_header(const char *haystack, int buf_size, int index){
@@ -34,9 +35,7 @@ int main(int argc, char* argv[]) {
 	char buf[max_packet_size];
 
 	char message[]= "GET /~kkredo/file.html HTTP/1.0\r\n\r\n";
-
-	std::memcpy(buf,&message,sizeof(message));
-	send(s, buf, sizeof(message),0);
+	send(s, message, sizeof(message),0);
 	int trailing_match = 0;
 	int header_count = 0;
 	int chunk_boundry = max_packet_size;
