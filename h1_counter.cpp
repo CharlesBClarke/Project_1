@@ -59,7 +59,7 @@ int main(int argc, char* argv[]) {
 			}
 			else{
 				int match_len = match_header(buf, size_of_recv, i);
-				if (match_len!=0) trailing_match=match_len;
+				if (match_len>0) trailing_match=match_len;
 			}
 			if (i>=0) --chunk_boundry;
 		}
