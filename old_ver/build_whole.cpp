@@ -1,7 +1,6 @@
-#include <cstddef>
 #include <cstring>
 #include <iostream>
-#include <algorithm>
+
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netdb.h>
@@ -23,10 +22,7 @@ int main(int argc, char* argv[]) {
 	int s;
 	const char *host = "www.ecst.csuchico.edu";
 	const char *port = "80";
-
-
 	int max_packet_size = std::stoi(argv[1]);
-	const char needle[] = "<h1>";
 
 	if ( ( s = lookup_and_connect( host, port ) ) < 0 ) {
 		exit( 1 );
@@ -48,25 +44,15 @@ int main(int argc, char* argv[]) {
 	int byte_count = 0;
 
 	while (int size_of_recv = recv(s,buf, sizeof(buf),0)){
-		int current_chunk=size_of_recv;
 		byte_count+=size_of_recv;
 		int to_get=max_packet_size-size_of_recv;
 		char *write_head = buf;
 		while (to_get>=0 && size_of_recv) {
 			size_of_recv= recv(s,write_head+=size_of_recv,to_get,0);
 			to_get-=size_of_recv;
-			current_chunk+=size_of_recv;
 		}
-		char *read_head = buf;
-		while(true){
-			auto i = std::search(read_head, buf+current_chunk,needle,needle+4);
-			if (i<buf+current_chunk){
-				++i;
-				++header_count;
-			}else{
-				break;
-			}
-			read_head=i;
+		for(int i = 0; i<max_packet_size-3; ++i){
+			if ( match_header(buf, max_packet_size, i)) ++header_count;
 		}
 	}
 
