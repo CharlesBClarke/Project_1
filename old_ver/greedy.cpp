@@ -8,14 +8,18 @@
 
 int lookup_and_connect( const char *host, const char *service );
 
-bool match_header(const char *haystack, int buf_size, int index){
+int match_header(const char *haystack, int buf_size, int index){
 	const char neadle[]= {'<','h','1','>'};
 	int neadle_len = 4;
+	int match_count = 0;
 	for(int j = 0; j<neadle_len; ++j){
-		if (haystack[index] != neadle[j]) return false;
+		if(0<=index && index<buf_size){
+			if (haystack[index] != neadle[j]) return -1;
+			match_count+=1;
+		}
 		index+=1;
 	}
-	return true;
+	return match_count;
 }
 
 int main(int argc, char* argv[]) {
@@ -31,13 +35,7 @@ int main(int argc, char* argv[]) {
 	char buf[max_packet_size];
 
 	char message[]= "GET /~kkredo/file.html HTTP/1.0\r\n\r\n";
-	int to_send = sizeof(message);
-	int size_of_sent=0;
-	char *write_hearst = message;
-	do {
-		size_of_sent=send(s, write_hearst+=size_of_sent, to_send,0);
-		to_send-=size_of_sent;
-	}while(to_send != 0 && size_of_sent!=0);
+	send(s, message, sizeof(message),0);
 	int trailing_match = 0;
 	int header_count = 0;
 	int chunk_boundry = max_packet_size;
@@ -45,14 +43,24 @@ int main(int argc, char* argv[]) {
 
 	while (int size_of_recv = recv(s,buf, sizeof(buf),0)){
 		byte_count+=size_of_recv;
-		int to_get=max_packet_size-size_of_recv;
-		char *write_head = buf;
-		while (to_get>=0 && size_of_recv) {
-			size_of_recv= recv(s,write_head+=size_of_recv,to_get,0);
-			to_get-=size_of_recv;
-		}
-		for(int i = 0; i<max_packet_size-3; ++i){
-			if ( match_header(buf, max_packet_size, i)) ++header_count;
+		for(int i = - 3; i< size_of_recv; ++i){
+			if (chunk_boundry < 4) {
+				if (chunk_boundry == 0){
+					chunk_boundry = max_packet_size;
+				}
+			}
+			else if (i<0){
+				int match_len = match_header(buf, size_of_recv, i);
+				if (match_len+trailing_match == 4) header_count+=1;
+			}
+			else if (i< size_of_recv-3){
+				if (match_header(buf, size_of_recv, i)==4) ++header_count;
+			}
+			else{
+				int match_len = match_header(buf, size_of_recv, i);
+				if (match_len>0) trailing_match=match_len;
+			}
+			if (i>=0) --chunk_boundry;
 		}
 	}
 
