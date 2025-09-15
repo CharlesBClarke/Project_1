@@ -13,15 +13,12 @@ int main(int argc, char* argv[]) {
 	int s;
 	const char *host = "www.ecst.csuchico.edu";
 	const char *port = "80";
-
+	if ((s = lookup_and_connect(host, port)) < 0) exit(1);
 
 	int chunk_size = std::stoi(argv[1]);
 	const char needle[] = "<h1>";
 	int needle_size = sizeof(needle)-1;
 
-	if ( ( s = lookup_and_connect( host, port ) ) < 0 ) {
-		exit( 1 );
-	}
 	
 	char buf[chunk_size];
 
@@ -38,12 +35,10 @@ int main(int argc, char* argv[]) {
 	int header_count = 0;
 	int byte_count = 0;
 	while (int size_of_recv = recv(s,buf, chunk_size,0)){
-
 		byte_count+=size_of_recv;
+		write_head = buf;
 
 		int to_get=chunk_size;
-		char *write_head = buf;
-
 		while (to_get>=0 && size_of_recv) {
 			size_of_recv = recv(s,write_head+=size_of_recv,to_get-=size_of_recv,0);
 			byte_count += size_of_recv;
@@ -56,10 +51,10 @@ int main(int argc, char* argv[]) {
 		}
 	}
 
-	std::cout << "number of <h1> tags: " << header_count << std::endl;
-	std::cout << "number of bytes: " << byte_count << std::endl;
+	std::cout << "Number of <h1> tags: " << header_count << std::endl;
+	std::cout << "Number of bytes: " << byte_count << std::endl;
 
-	close( s );
+	close(s);
 
 	return 0;
 }
