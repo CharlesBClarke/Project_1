@@ -38,7 +38,6 @@ int main(int argc, char* argv[]) {
 
 	while (int size_of_recv = recv(s,buf, max_packet_size,0)){
 
-		int current_chunk=size_of_recv;
 		byte_count+=size_of_recv;
 
 		int to_get=max_packet_size;
@@ -47,14 +46,13 @@ int main(int argc, char* argv[]) {
 		while (to_get>=0 && size_of_recv) {
 			size_of_recv = recv(s,write_head+=size_of_recv,to_get-=size_of_recv,0);
 			byte_count += size_of_recv;
-			current_chunk+=size_of_recv;
 		}
 
 		char *read_head = buf;
 
 		while(true) {
-			auto i = std::search(read_head, buf+current_chunk,needle,needle+4);
-			if (i<buf+current_chunk){
+			auto i = std::search(read_head, write_head,needle,needle+4);
+			if (i<write_head){
 				++i;
 				++header_count;
 			}else{
