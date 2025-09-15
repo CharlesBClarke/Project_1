@@ -17,6 +17,7 @@ int main(int argc, char* argv[]) {
 
 	int max_packet_size = std::stoi(argv[1]);
 	const char needle[] = "<h1>";
+	int needle_size = sizeof(needle)-1;
 
 	if ( ( s = lookup_and_connect( host, port ) ) < 0 ) {
 		exit( 1 );
@@ -25,7 +26,7 @@ int main(int argc, char* argv[]) {
 	char buf[max_packet_size];
 
 	char message[]= "GET /~kkredo/file.html HTTP/1.0\r\n\r\n";
-	int to_send = sizeof(message);
+	int to_send = sizeof(message)-1;
 	char *write_hearst = message;
 	int size_of_sent = send(s, write_hearst, to_send,0);
 	while(to_send != 0 && size_of_sent!=0){
@@ -48,17 +49,10 @@ int main(int argc, char* argv[]) {
 			byte_count += size_of_recv;
 		}
 
-		char *read_head = buf;
-
-		while(true) {
-			auto i = std::search(read_head, write_head,needle,needle+4);
-			if (i<write_head){
-				++i;
-				++header_count;
-			}else{
-				break;
-			}
-			read_head=i;
+		auto i = std::search(buf, write_head,needle,needle+needle_size);
+		while(i<write_head) {
+			++header_count;
+			i = std::search(i+1, write_head,needle,needle+needle_size);
 		}
 	}
 
