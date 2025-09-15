@@ -50,7 +50,7 @@ int main(int argc, char* argv[]) {
 		}
 	}
 
-	std::cout << "Number of <h1> tags: " << header_count << std::endl;
+	std::cout << "Number of <h1> tags: " << header_count << "\n";
 	std::cout << "Number of bytes: " << byte_count << std::endl;
 
 	close(s);
