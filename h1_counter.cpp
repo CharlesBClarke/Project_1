@@ -9,16 +9,6 @@
 
 int lookup_and_connect( const char *host, const char *service );
 
-bool match_header(const char *haystack, int buf_size, int index){
-	const char neadle[]= {'<','h','1','>'};
-	int neadle_len = 4;
-	for(int j = 0; j<neadle_len; ++j){
-		if (haystack[index] != neadle[j]) return false;
-		index+=1;
-	}
-	return true;
-}
-
 int main(int argc, char* argv[]) {
 	int s;
 	const char *host = "www.ecst.csuchico.edu";
@@ -36,33 +26,33 @@ int main(int argc, char* argv[]) {
 
 	char message[]= "GET /~kkredo/file.html HTTP/1.0\r\n\r\n";
 	int to_send = sizeof(message);
-	int size_of_sent=0;
 	char *write_hearst = message;
-	do {
-		size_of_sent=send(s, write_hearst+=size_of_sent, to_send,0);
+	int size_of_sent = send(s, write_hearst, to_send,0);
+	while(to_send != 0 && size_of_sent!=0){
+		size_of_sent = send(s, write_hearst+=size_of_sent, to_send,0);
 		to_send-=size_of_sent;
-	}while(to_send != 0 && size_of_sent!=0);
-	int trailing_match = 0;
+	}
+
 	int header_count = 0;
-	int chunk_boundry = max_packet_size;
 	int byte_count = 0;
 
-	while (int size_of_recv = recv(s,buf, sizeof(buf),0)){
+	while (int size_of_recv = recv(s,buf, max_packet_size,0)){
 
 		int current_chunk=size_of_recv;
 		byte_count+=size_of_recv;
 
-		int to_get=max_packet_size-size_of_recv;
+		int to_get=max_packet_size;
 		char *write_head = buf;
-		while (to_get>=0 && size_of_recv) {
-			size_of_recv= recv(s,write_head+=size_of_recv,to_get,0);
-			byte_count+=size_of_recv;
 
-			to_get-=size_of_recv;
+		while (to_get>=0 && size_of_recv) {
+			size_of_recv = recv(s,write_head+=size_of_recv,to_get-=size_of_recv,0);
+			byte_count += size_of_recv;
 			current_chunk+=size_of_recv;
 		}
+
 		char *read_head = buf;
-		while(true){
+
+		while(true) {
 			auto i = std::search(read_head, buf+current_chunk,needle,needle+4);
 			if (i<buf+current_chunk){
 				++i;
