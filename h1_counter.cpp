@@ -31,7 +31,13 @@ int main(int argc, char* argv[]) {
 	char buf[max_packet_size];
 
 	char message[]= "GET /~kkredo/file.html HTTP/1.0\r\n\r\n";
-	send(s, message, sizeof(message),0);
+	int to_send = sizeof(message);
+	int size_of_sent=0;
+	char *write_hearst = message;
+	do {
+		size_of_sent=send(s, write_hearst+=size_of_sent, to_send,0);
+		to_send-=size_of_sent;
+	}while(to_send != 0 && size_of_sent!=0);
 	int trailing_match = 0;
 	int header_count = 0;
 	int chunk_boundry = max_packet_size;
