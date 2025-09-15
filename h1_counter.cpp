@@ -48,12 +48,16 @@ int main(int argc, char* argv[]) {
 	int byte_count = 0;
 
 	while (int size_of_recv = recv(s,buf, sizeof(buf),0)){
+
 		int current_chunk=size_of_recv;
 		byte_count+=size_of_recv;
+
 		int to_get=max_packet_size-size_of_recv;
 		char *write_head = buf;
 		while (to_get>=0 && size_of_recv) {
 			size_of_recv= recv(s,write_head+=size_of_recv,to_get,0);
+			byte_count+=size_of_recv;
+
 			to_get-=size_of_recv;
 			current_chunk+=size_of_recv;
 		}
