@@ -9,71 +9,52 @@
 
 int lookup_and_connect( const char *host, const char *service );
 
-bool match_header(const char *haystack, int buf_size, int index){
-	const char neadle[]= {'<','h','1','>'};
-	int neadle_len = 4;
-	for(int j = 0; j<neadle_len; ++j){
-		if (haystack[index] != neadle[j]) return false;
-		index+=1;
-	}
-	return true;
-}
-
 int main(int argc, char* argv[]) {
 	int s;
 	const char *host = "www.ecst.csuchico.edu";
 	const char *port = "80";
+	if ((s = lookup_and_connect(host, port)) < 0) exit(1);
 
-
-	int max_packet_size = std::stoi(argv[1]);
+	int chunk_size = std::stoi(argv[1]);
 	const char needle[] = "<h1>";
+	int needle_size = sizeof(needle)-1;
 
-	if ( ( s = lookup_and_connect( host, port ) ) < 0 ) {
-		exit( 1 );
-	}
 	
-	char buf[max_packet_size];
+	char buf[chunk_size];
 
 	char message[]= "GET /~kkredo/file.html HTTP/1.0\r\n\r\n";
-	int to_send = sizeof(message);
-	int size_of_sent=0;
-	char *write_hearst = message;
-	do {
-		size_of_sent=send(s, write_hearst+=size_of_sent, to_send,0);
-		to_send-=size_of_sent;
-	}while(to_send != 0 && size_of_sent!=0);
-	int trailing_match = 0;
-	int header_count = 0;
-	int chunk_boundry = max_packet_size;
-	int byte_count = 0;
+	int to_send = sizeof(message)-1;
 
-	while (int size_of_recv = recv(s,buf, sizeof(buf),0)){
-		int current_chunk=size_of_recv;
+	char *write_head = message;
+	int size_of_sent = send(s, write_head, to_send,0);
+	while(to_send != 0 && size_of_sent!=0){
+		size_of_sent = send(s, write_head+=size_of_sent, to_send,0);
+		to_send-=size_of_sent;
+	}
+
+	int header_count = 0;
+	int byte_count = 0;
+	while (int size_of_recv = recv(s,buf, chunk_size,0)){
 		byte_count+=size_of_recv;
-		int to_get=max_packet_size-size_of_recv;
-		char *write_head = buf;
+		write_head = buf;
+
+		int to_get=chunk_size;
 		while (to_get>=0 && size_of_recv) {
-			size_of_recv= recv(s,write_head+=size_of_recv,to_get,0);
-			to_get-=size_of_recv;
-			current_chunk+=size_of_recv;
+			size_of_recv = recv(s,write_head+=size_of_recv,to_get-=size_of_recv,0);
+			byte_count += size_of_recv;
 		}
-		char *read_head = buf;
-		while(true){
-			auto i = std::search(read_head, buf+current_chunk,needle,needle+4);
-			if (i<buf+current_chunk){
-				++i;
-				++header_count;
-			}else{
-				break;
-			}
-			read_head=i;
+
+		auto i = std::search(buf, write_head,needle,needle+needle_size);
+		while(i<write_head) {
+			++header_count;
+			i = std::search(i+1, write_head,needle,needle+needle_size);
 		}
 	}
 
-	std::cout << "number of <h1> tags: " << header_count << std::endl;
-	std::cout << "number of bytes: " << byte_count << std::endl;
+	std::cout << "Number of <h1> tags: " << header_count << std::endl;
+	std::cout << "Number of bytes: " << byte_count << std::endl;
 
-	close( s );
+	close(s);
 
 	return 0;
 }
