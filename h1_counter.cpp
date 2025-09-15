@@ -15,7 +15,7 @@ int main(int argc, char* argv[]) {
 	const char *port = "80";
 
 
-	int max_packet_size = std::stoi(argv[1]);
+	int chunk_size = std::stoi(argv[1]);
 	const char needle[] = "<h1>";
 	int needle_size = sizeof(needle)-1;
 
@@ -23,25 +23,25 @@ int main(int argc, char* argv[]) {
 		exit( 1 );
 	}
 	
-	char buf[max_packet_size];
+	char buf[chunk_size];
 
 	char message[]= "GET /~kkredo/file.html HTTP/1.0\r\n\r\n";
 	int to_send = sizeof(message)-1;
-	char *write_hearst = message;
-	int size_of_sent = send(s, write_hearst, to_send,0);
+
+	char *write_head = message;
+	int size_of_sent = send(s, write_head, to_send,0);
 	while(to_send != 0 && size_of_sent!=0){
-		size_of_sent = send(s, write_hearst+=size_of_sent, to_send,0);
+		size_of_sent = send(s, write_head+=size_of_sent, to_send,0);
 		to_send-=size_of_sent;
 	}
 
 	int header_count = 0;
 	int byte_count = 0;
-
-	while (int size_of_recv = recv(s,buf, max_packet_size,0)){
+	while (int size_of_recv = recv(s,buf, chunk_size,0)){
 
 		byte_count+=size_of_recv;
 
-		int to_get=max_packet_size;
+		int to_get=chunk_size;
 		char *write_head = buf;
 
 		while (to_get>=0 && size_of_recv) {
