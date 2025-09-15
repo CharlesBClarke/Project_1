@@ -19,7 +19,6 @@ int main(int argc, char* argv[]) {
 	const char needle[] = "<h1>";
 	int needle_size = sizeof(needle)-1;
 
-	
 	char buf[chunk_size];
 
 	char message[]= "GET /~kkredo/file.html HTTP/1.0\r\n\r\n";
