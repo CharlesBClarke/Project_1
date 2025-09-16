@@ -7,4 +7,4 @@ $(TARGET): $(SRC)
 	$(CXX) $(CXXFLAGS) -o $(TARGET) $(SRC)
 
 clean:
-	rm -r build
+	rm $(TARGET)
