@@ -26,9 +26,8 @@ int main(int argc, char* argv[]) {
 	char *write_head = message;
 	int to_send = sizeof(message)-1;
 	int size_of_sent = send(s, write_head, to_send,0);
-	while(to_send != 0 && size_of_sent!=0){
+	while(to_send != 0 && size_of_sent!=0)
 		size_of_sent = send(s, write_head+=size_of_sent, to_send-=size_of_sent,0);
-	}
 
 	int header_count = 0;
 	int byte_count = 0;
