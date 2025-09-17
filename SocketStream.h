@@ -1,5 +1,8 @@
 #pragma once
 #include <sys/socket.h>
+#include <errno.h>
+#include <string.h>
+#include <iostream>
 
 class SocketStream {
 public:
@@ -9,12 +12,14 @@ public:
 
 	template<int N>
 	SocketStream &operator<<(const char (&lit)[N]){
+		int size = N-1;
 		int total_sent=0;
 		int sent_size=0;
 		do{
-			sent_size = send(this->socket_, lit+total_sent, N-total_sent-1,0);
-			total_sent+=sent_size;
-		}while(total_sent<N-1&&sent_size!=0);
+			sent_size = send(this->socket_, lit+total_sent, size-total_sent,0);
+		}while(sent_size>0&&(total_sent+= sent_size)<size);
+
+		if (sent_size == -1) std::cerr << "send error: " << strerror(errno);
 		return *this;
 	}
 
