@@ -15,7 +15,7 @@ int main(int argc, char* argv[]) {
 
 	char buf[chunk_size];
 
-	s << "GET /bytes/100000 HTTP/1.1\r\nHost: httpbin.org\r\nConnection: close\r\n\r\n";
+	s << "GET /bytes/10000 HTTP/1.1\r\nHost: httpbin.org\r\nConnection: close\r\n\r\n";
 
 	int header_count = 0;
 	int byte_count = 0;
