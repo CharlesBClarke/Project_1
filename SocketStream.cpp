@@ -8,7 +8,7 @@
 #include <unistd.h>
 #include <errno.h>
 SocketStream::SocketStream(const char *ip, const char *port, int buf_size)
-    : socket_(-1), last_recv_size_(0), buf_size_(buf_size){
+    : socket_(-1), last_recv_size_(0), buf_size_(buf_size-3){
 	struct addrinfo hints{};
 	struct addrinfo *rp, *result;
 	int s;
@@ -46,19 +46,8 @@ SocketStream::~SocketStream() {
 }
 
 SocketStream &SocketStream::operator>>(char *buff) {
-	int total_recvd=0;
-	int recvd_size=0;
-	do {
-	    recvd_size = recv(this->socket_,
-			      buff + total_recvd,
-			      this->buf_size_ - total_recvd,
-			      0);
-	} while (recvd_size > 0 &&
-		 (total_recvd += recvd_size) < this->buf_size_);
-
-	if (recvd_size == -1) std::cerr << "recv error: " << strerror(errno);
-
-	last_recv_size_ = total_recvd;
+	int recvd_size = recv(this->socket_, buff, this->buf_size_,0);
+	last_recv_size_ = recvd_size;
 	return *this;
 }
 
