@@ -1,14 +1,25 @@
+#include <cassert>
 #include <iostream>
 #include <algorithm>
 #include <cstring>
 #include "SocketStream.h"
 
 int count_headers(const	char *haystack_start,const char *haystack_end, const char *needle_start, const char *needle_end);
+void print_sanitized(const char* data, const char* end) {
+    for (const char* p = data; p < end; ++p) {
+        unsigned char c = static_cast<unsigned char>(*p);
+        if (std::isprint(c))
+            std::cout.put(c);
+        else
+            std::cout.put('?');
+    }
+    std::cout.flush();
+}
 int main(int argc, char* argv[]) {
 	const char *host = "www.ecst.csuchico.edu";
 	const char *port = "80";
 	int chunk_size = std::stoi(argv[1]);
-	SocketStream s(host,port,chunk_size);
+	SocketStream s(host,port,chunk_size-3);
 
 	const char needle[] = "<h1>";
 	int needle_size = sizeof(needle)-1;
@@ -19,19 +30,32 @@ int main(int argc, char* argv[]) {
 
 	int header_count = 0;
 	int byte_count = 0;
-	s >> (buf+3);
+	int chunk_bound = chunk_size;
+
 	std::memset(buf, '#', 3);
+	s >> (buf+3);
 	while (s.lastRecv()>0){
-
-
-		char *end_of_chunk = buf+chunk_i;
+		byte_count += s.lastRecv();
 		char *end_of_buf = buf+s.lastRecv()+3;
+		char *end_of_chunk = end_of_buf;
 
+		if (chunk_bound<=s.lastRecv()){
+			end_of_chunk = buf+chunk_bound;
+			assert((s.lastRecv()-chunk_bound)>=0);
+			chunk_bound = chunk_size-(s.lastRecv()-chunk_bound);
+		}else{
+			chunk_bound-=s.lastRecv();
+		}
+
+		assert(chunk_bound>0);
+		assert(end_of_buf<=buf+chunk_size);
+		print_sanitized(buf, end_of_chunk);
+		std::cout<<"|BREAK|";
 		header_count+=count_headers(buf,end_of_chunk,(char*)needle,(char*)needle+needle_size);
+		print_sanitized(end_of_chunk, end_of_buf);
+		std::cout<<std::endl;
 		header_count+=count_headers(end_of_chunk,end_of_buf,(char*)needle,(char*)needle+needle_size);
 			
-		chunk_bound-=s.lastRecv();
-
 		std::memcpy(buf,end_of_buf-3,3);
 		s >> (buf+3);
 	}
@@ -42,12 +66,13 @@ int main(int argc, char* argv[]) {
 	return 0;
 }
 
-int count_headers(const char *haystack_start,const char *haystack_end, const char *needle_start, const char *needle_end){
-	int result = 0;
-	auto i = std::search(haystack_start, haystack_end ,needle_start,needle_end);
-	while(i<haystack_end) {
-		++result;
-		i = std::search(i+1, haystack_end,needle_start,needle_end);
-	}
-	return result;
+int count_headers(const char* h_start, const char* h_end, const char* n_start, const char* n_end){
+    if (n_start == n_end) return 0;
+    int result = 0;
+    const char* i = std::search(h_start, h_end, n_start, n_end);
+    while (i != h_end) {
+        ++result;
+        i = std::search(i + (n_end - n_start), h_end, n_start, n_end);
+    }
+    return result;
 }

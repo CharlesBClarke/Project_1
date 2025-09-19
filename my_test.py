@@ -54,7 +54,7 @@ for chunk, tags in tag_counts.items():
         output = subprocess.run(cmd, shell=True, check=True, capture_output=True, text=True, timeout=2)
 
     except subprocess.TimeoutExpired as e:
-        print(f"failed with chunk size{chunk}\n")
+        print(f"TIMEOUT failed with chunk size{chunk}\n")
     else:
         expected = f"Number of <h1> tags: {tags}\nNumber of bytes: 4467\n"
         if (output.stdout!=expected):
@@ -65,5 +65,4 @@ for chunk, tags in tag_counts.items():
             print(expected)
             print("Ran command")
             print(base)
-            break;
 print("Done\n")

@@ -8,7 +8,7 @@
 #include <unistd.h>
 #include <errno.h>
 SocketStream::SocketStream(const char *ip, const char *port, int buf_size)
-    : socket_(-1), last_recv_size_(0), buf_size_(buf_size-3){
+    : socket_(-1), last_recv_size_(0), buf_size_(buf_size){
 	struct addrinfo hints{};
 	struct addrinfo *rp, *result;
 	int s;
