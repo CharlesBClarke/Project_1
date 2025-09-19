@@ -5,16 +5,7 @@
 #include "SocketStream.h"
 
 int count_headers(const	char *haystack_start,const char *haystack_end, const char *needle_start, const char *needle_end);
-void print_sanitized(const char* data, const char* end) {
-    for (const char* p = data; p < end; ++p) {
-        unsigned char c = static_cast<unsigned char>(*p);
-        if (std::isprint(c))
-            std::cout.put(c);
-        else
-            std::cout.put('?');
-    }
-    std::cout.flush();
-}
+
 int main(int argc, char* argv[]) {
 	const char *host = "www.ecst.csuchico.edu";
 	const char *port = "80";
@@ -41,21 +32,14 @@ int main(int argc, char* argv[]) {
 
 		if (chunk_bound<=s.lastRecv()){
 			end_of_chunk = buf+chunk_bound;
-			assert((s.lastRecv()-chunk_bound)>=0);
 			chunk_bound = chunk_size-(s.lastRecv()-chunk_bound);
 		}else{
 			chunk_bound-=s.lastRecv();
 		}
 
-		assert(chunk_bound>0);
-		assert(end_of_buf<=buf+chunk_size);
-		print_sanitized(buf, end_of_chunk);
-		std::cout<<"|BREAK|";
 		header_count+=count_headers(buf,end_of_chunk,(char*)needle,(char*)needle+needle_size);
-		print_sanitized(end_of_chunk, end_of_buf);
-		std::cout<<std::endl;
 		header_count+=count_headers(end_of_chunk,end_of_buf,(char*)needle,(char*)needle+needle_size);
-			
+
 		std::memcpy(buf,end_of_buf-3,3);
 		s >> (buf+3);
 	}
@@ -71,8 +55,8 @@ int count_headers(const char* h_start, const char* h_end, const char* n_start, c
     int result = 0;
     const char* i = std::search(h_start, h_end, n_start, n_end);
     while (i != h_end) {
-        ++result;
-        i = std::search(i + (n_end - n_start), h_end, n_start, n_end);
+	++result;
+	i = std::search(i + (n_end - n_start), h_end, n_start, n_end);
     }
     return result;
 }
