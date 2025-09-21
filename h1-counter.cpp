@@ -5,6 +5,10 @@
 int lookup_and_connect( const char *host, const char *service );
 
 int main(int argc, char* argv[]) {
+	if (argc != 2){
+		fprintf(stderr, "usage: %s chunk_size\n", argv[0]);
+		exit(1);
+	}
 	const char *host = "www.ecst.csuchico.edu";
 	const char *port = "80";
 	int chunk_size = std::stoi(argv[1]);
